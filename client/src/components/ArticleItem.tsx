@@ -1,4 +1,4 @@
-import { Box, Card, Icon, Text, surface, useModalStore } from '@lifeforge/ui'
+import { Box, Card, Image, Text, surface, useModalStore } from '@lifeforge/ui'
 
 import type { NewsArticle } from '..'
 import ContentModal from './ContentModal'
@@ -9,45 +9,24 @@ function ArticleItem({ item }: { item: NewsArticle }) {
   return (
     <Card
       isInteractive
-      as="article"
       align="center"
+      as="article"
       direction={{ base: 'column', md: 'row' }}
       gap="lg"
     >
-      <Box
+      <Image
+        alt=""
         aspectRatio="16 / 9"
         bg={surface.light}
+        fallback="tabler:news"
+        fit="cover"
         flexShrink="0"
         overflow="hidden"
-        position="relative"
         r="lg"
+        referrerPolicy="no-referrer"
+        src={item.image}
         width={{ base: '100%', md: '24rem' }}
-      >
-        <Icon
-          color={{ base: 'bg-300', dark: 'bg-700' }}
-          icon="tabler:news"
-          position="absolute"
-          size="4rem"
-          style={{
-            left: '50%',
-            top: '50%',
-            transform: 'translate(-50%, -50%)'
-          }}
-        />
-        {item.image && (
-          <img
-            alt=""
-            referrerPolicy="no-referrer"
-            src={item.image}
-            style={{
-              height: '100%',
-              objectFit: 'cover',
-              position: 'relative',
-              width: '100%'
-            }}
-          />
-        )}
-      </Box>
+      />
       <Box width="100%">
         <Text as="p" color="primary" mb="sm" size="lg" weight="semibold">
           {item.category}
