@@ -7,9 +7,72 @@ import {
   useState
 } from 'react'
 
-import { contract } from '../../contract'
-
-const CATEGORIES = contract.list.input.query.properties.type.enum
+const CATEGORIES = [
+  'latest',
+  'headline',
+  'hot',
+  'domestic:latest',
+  'domestic:realtime',
+  'domestic:editor-choice',
+  'domestic:hot',
+  'domestic:society',
+  'domestic:education',
+  'domestic:chinese-society',
+  'domestic:headline',
+  'domestic:warm-action',
+  'domestic:mixed',
+  'domestic:politics',
+  'domestic:truth-seeking',
+  'international:latest',
+  'international:worldwide',
+  'international:headline',
+  'international:international-platter',
+  'international:explore-the-world',
+  'finance:latest',
+  'finance:spotlight',
+  'finance:international',
+  'entertainment:latest',
+  'entertainment:foreign',
+  'entertainment:msia',
+  'local:johor:focus',
+  'local:johor:singapore',
+  'local:johor:eye',
+  'local:johor:mixed',
+  'local:metropolis:headline',
+  'local:metropolis:dynamic',
+  'local:metropolis:interesting',
+  'local:metropolis:story',
+  'local:metropolis:perspective',
+  'local:perak:focus',
+  'local:perak:special-column',
+  'local:perak:dynamic',
+  'local:perak:school',
+  'local:perak:society',
+  'local:perak:people',
+  'supplement:topic',
+  'supplement:lifestyle',
+  'supplement:travel',
+  'supplement:food',
+  'supplement:column',
+  'supplement:things',
+  'supplement:fashion',
+  'supplement:new-education',
+  'supplement:e-trend',
+  'supplement:arts',
+  'supplement:life-protection',
+  'supplement:car-viewing',
+  'supplement:wellness',
+  'supplement:family',
+  'supplement:people',
+  'supplement:audio-video',
+  'supplement:readers',
+  'supplement:flower-trace',
+  'supplement:creation',
+  'supplement:airasia-news',
+  'xuehai:power-teens',
+  'xuehai:study-record',
+  'xuehai:hou-lang-fang'
+] as const
 
 export const RANGES = ['6H', '24H', '1W'] as const
 
@@ -55,7 +118,7 @@ export function CategoryProvider({ children }: { children: ReactNode }) {
     CATEGORIES.forEach(cat => {
       const parts = cat.split(':')
 
-      const main = parts[0]
+      const main = parts[0]!
 
       const sub = parts[1]
 
@@ -70,21 +133,21 @@ export function CategoryProvider({ children }: { children: ReactNode }) {
           structure[main].subcategories = {}
         }
 
-        if (!structure[main].subcategories![sub]) {
-          structure[main].subcategories![sub] = {}
+        if (!structure[main].subcategories[sub]) {
+          structure[main].subcategories[sub] = {}
         }
 
         if (subsub) {
-          if (!structure[main].subcategories![sub].subsubcategories) {
-            structure[main].subcategories![sub].subsubcategories = []
+          if (!structure[main].subcategories[sub].subsubcategories) {
+            structure[main].subcategories[sub].subsubcategories = []
           }
 
           if (
-            !structure[main].subcategories![sub].subsubcategories!.includes(
+            !structure[main].subcategories[sub].subsubcategories.includes(
               subsub
             )
           ) {
-            structure[main].subcategories![sub].subsubcategories!.push(subsub)
+            structure[main].subcategories[sub].subsubcategories.push(subsub)
           }
         }
       }
@@ -95,7 +158,7 @@ export function CategoryProvider({ children }: { children: ReactNode }) {
 
   const availableSubCategories = useMemo(() => {
     return categoryStructure[mainCategory]?.subcategories
-      ? Object.keys(categoryStructure[mainCategory].subcategories!)
+      ? Object.keys(categoryStructure[mainCategory].subcategories)
       : []
   }, [categoryStructure, mainCategory])
 
